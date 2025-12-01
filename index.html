@@ -1,11 +1,28 @@
-<!DOCTYPE html><html><head>
-<meta charset='UTF-8'><title>Apple Music Glass</title>
-<link rel='stylesheet' href='style.css'>
-</head><body>
-<div id='app-root'>Player Loading…</div>
-<script src='app.js'></script>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Apple Music Glass Player</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div id="app-root">Player Loading…</div>
+
+<script src="app.js"></script>
+
 <script>
-window.audioCtx=new (window.AudioContext||window.webkitAudioContext)();
-audioCtx.audioWorklet.addModule('soundtouch-worklet.js');
+(async () => {
+  // Crée l’AudioContext
+  window.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  // Charge le worklet AVANT d'initialiser l’app
+  await audioCtx.audioWorklet.addModule("soundtouch-worklet.js");
+
+  // Event pour signaler que le worklet est prêt
+  window.dispatchEvent(new Event("worklet-ready"));
+})();
 </script>
-</body></html>
+
+</body>
+</html>
