@@ -7,20 +7,31 @@
 </head>
 
 <body>
+
 <div id="app-root">Player Loading…</div>
 
+<!-- Charge l'application -->
 <script src="app.js"></script>
 
+<!-- Charge le Worklet correctement -->
 <script>
 (async () => {
-  // Crée l’AudioContext
-  window.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  try {
+      window.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-  // Charge le worklet AVANT d'initialiser l’app
-  await audioCtx.audioWorklet.addModule("soundtouch-worklet.js");
+      console.log("Chargement du worklet…");
 
-  // Event pour signaler que le worklet est prêt
-  window.dispatchEvent(new Event("worklet-ready"));
+      await audioCtx.audioWorklet.addModule("soundtouch-worklet.js");
+
+      console.log("Worklet chargé.");
+
+      // Signal à app.js qu'il peut démarrer
+      window.dispatchEvent(new Event("worklet-ready"));
+  } 
+  catch (err) {
+      console.error("Erreur Worklet :", err);
+      document.getElementById("app-root").innerText = "Erreur Worklet : " + err;
+  }
 })();
 </script>
 
