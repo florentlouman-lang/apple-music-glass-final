@@ -1,0 +1,11 @@
+<!DOCTYPE html><html><head>
+<meta charset='UTF-8'><title>Apple Music Glass</title>
+<link rel='stylesheet' href='style.css'>
+</head><body>
+<div id='app-root'>Player Loading…</div>
+<script src='app.js'></script>
+<script>
+window.audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+audioCtx.audioWorklet.addModule('soundtouch-worklet.js');
+</script>
+</body></html>
